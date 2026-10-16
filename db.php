@@ -1,7 +1,4 @@
-
 <?php
-
-
 $host = "localhost";
 $dbname = "matrimonial_data";
 $username = "root";

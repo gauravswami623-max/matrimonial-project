@@ -3,6 +3,31 @@
         <h3 class="text-center mb-4">Registration Form</h3>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+                    <?php
+                    if(isset($_GET["empty"])){
+                    
+                    ?>
+                        <div class="alert alert-danger">please fill all fields</div>
+                    
+                    <?php
+                    };
+                    if(isset($_GET["exists"])){
+                    ?>
+                    <div class="alert alert-danger">This account already exist</div>
+                    <?php
+                    };
+                    if(isset($_GET["nophoto"])){
+                    ?>
+                    <div class="alert alert-danger">Please put a photo</div>
+                    <?php
+                    };
+                    if(isset($_GET["badfile"])){
+                    ?>
+                    <div class="alert alert-danger">Only give jpg,png,jpeg photo file otherwise it won't accept photo</div>
+                    <?php
+                    };?>
+              
+
             <form method="post" action="log.php" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6 mb-3" >
@@ -32,7 +57,7 @@
                     </div>
                     <div class="mb-3">
                         <label>DOB : </label>
-                        <input type="date" name="date">
+                        <input type="date" name="date" required>
                     </div>
                         <div class="mb-3">
                             <label>Religion : </label>
@@ -87,6 +112,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 mt-3">submit</button>
+
                 </div>
             </form>
             
