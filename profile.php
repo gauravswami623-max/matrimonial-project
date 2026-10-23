@@ -21,6 +21,7 @@ $user = $stmt->fetch();
     <div>
       <a href="profile.php" class="btn btn-outline-light me-2">Profile</a>
       <a href="logout.php" class="btn btn-outline-light">Logout</a>
+      <a href="browse.php" class="btn btn-outline-light">Browse</a>
     </div>
   </div>
 </nav> 
