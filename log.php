@@ -5,7 +5,10 @@ header("location:registration.php?empty=1");
 exit();
 }
 else{
-
+if(strlen($_POST['pass'])<6){
+    header("location:registration.php?short=1");
+    exit();
+}
 require 'db.php';
 
 $fname=$_POST["fname"];

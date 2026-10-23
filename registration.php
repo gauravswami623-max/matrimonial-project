@@ -25,7 +25,14 @@
                     ?>
                     <div class="alert alert-danger">Only give jpg,png,jpeg photo file otherwise it won't accept photo</div>
                     <?php
-                    };?>
+                    };
+                    if(isset($_GET["short"])){
+                    ?>
+                    <div class="alert alert-danger">Please give 6 numbers in password field</div>
+
+                    <?php
+                    }
+                    ?>
               
 
             <form method="post" action="log.php" enctype="multipart/form-data">
