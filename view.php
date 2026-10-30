@@ -21,6 +21,21 @@ if(!$p){
     exit();
 }
 
+$me    = $_SESSION['user_id'];
+$other = (int)$_GET['id'];
+
+$stmt = $pdo->prepare("
+    SELECT sender_id, message, created_at
+    FROM messages
+    WHERE (sender_id = :me1 AND receiver_id = :other1)
+       OR (sender_id = :other2 AND receiver_id = :me2)
+    ORDER BY created_at ASC
+");
+$stmt->execute([
+    ':me1' => $me, ':other1' => $other,
+    ':other2' => $other, ':me2' => $me
+]);
+$chat = $stmt->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -44,12 +59,40 @@ if(!$p){
 <?php } ?>
 
 <p>Occupation : <?php echo htmlspecialchars($p['occupation']);?></p>
-<p>Reliogion : <?php echo htmlspecialchars($p['religion']);?></p>
+<p>Religion : <?php echo htmlspecialchars($p['religion']);?></p>
 <p>Caste : <?php echo htmlspecialchars($p['caste']);?></p>
 <p>State : <?php echo htmlspecialchars($p['state']);?></p>
 <p>City : <?php echo htmlspecialchars($p['city']);?></p>
 <p>Country : <?php echo htmlspecialchars($p['country']);?></p>
 <p>Date Of Birth : <?php echo htmlspecialchars($p['birth']);?></p>
+
+<h6 class="mt-4">Conversation</h6>
+
+<?php if(empty($chat)){ ?>
+    <p class="text-muted">No messages yet. Say hello!</p>
+<?php } ?>
+
+<?php foreach($chat as $c){ ?>
+    <div class="mb-2 <?php echo ($c['sender_id'] == $me) ? 'text-end' : ''; ?>">
+        <span class="d-inline-block p-2 rounded <?php echo ($c['sender_id'] == $me) ? 'bg-primary text-white' : 'bg-light'; ?>">
+            <?php echo htmlspecialchars($c['message']); ?>
+        </span><br>
+        <small class="text-muted"><?php echo htmlspecialchars($c['created_at']); ?></small>
+    </div>
+<?php } ?>
+
+<?php if(isset($_GET["sent"])){?>
+<div class="alert alert-success">Message Sent</div>
+<?php } ?>
+<?php if(isset($_GET["err"])){?>
+<div class="alert alert-danger">Message could not be sent</div>
+<?php }?>
+<form method="post" action="send_message.php" class="mt-3">
+    <input type="hidden" name="receiver_id" value="<?php echo (int)$_GET['id'];?>" >
+    <textarea name="message" class="form-control mb-2" rows="3" placeholder="Write a message..." required></textarea>
+    <button type="submit" class="btn btn-primary btn-sm">Send Message</button>
+
+</form>
 <a href="browse.php" class="btn btn-outline-secondary btn-sm" >Back to Profiles</a>
 </div>
 
