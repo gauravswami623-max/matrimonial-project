@@ -71,6 +71,7 @@ $stmt = $pdo -> prepare($sql);
         ':photo' => $photoName,
     ]);
 header("location:index.php?successful=1");
+exit();
 }
 
 ?>
